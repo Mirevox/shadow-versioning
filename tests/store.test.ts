@@ -134,13 +134,15 @@ describe("store create and idempotent sync", () => {
 
     expect(fetched).toHaveLength(4);
     expect(new Set(fetched.map((event) => event.id)).size).toBe(4);
-    expect(fetched.every((event) => event.provenance === "stub" && event.upstreamWritten === false)).toBe(
-      true,
-    );
+    expect(
+      fetched.every(
+        (event) => event.provenance === "stub" && event.upstreamWritten === false && event.network === false,
+      ),
+    ).toBe(true);
 
     const added = appendSnapshots(APP, fetched, now);
     expect(added.map((event) => event.id).sort()).toEqual(fetched.map((event) => event.id).sort());
-    expect(added.every((event) => event.upstreamWritten === false)).toBe(true);
+    expect(added.every((event) => event.upstreamWritten === false && event.network === false)).toBe(true);
 
     const replay = await runStubSync(created.manifest, now);
     expect(appendSnapshots(APP, replay, now)).toEqual([]);
@@ -161,10 +163,16 @@ describe("store create and idempotent sync", () => {
       detail: "Recorded once even if the batch repeats the id.",
       ref: "manual-1",
       provenance: "manual" as const,
+      network: false,
     };
     const once = appendSnapshots(APP, [novel, novel], now);
     expect(once).toHaveLength(1);
-    expect(once[0]).toMatchObject({ id: novel.id, upstreamWritten: false, recordedAt: now.toISOString() });
+    expect(once[0]).toMatchObject({
+      id: novel.id,
+      upstreamWritten: false,
+      network: false,
+      recordedAt: now.toISOString(),
+    });
     expect(appendSnapshots(APP, [novel], now)).toEqual([]);
     expect(getTimeline(APP)).toHaveLength(5);
     expect(getProject(APP)?.manifest).toEqual(created.manifest);
@@ -183,6 +191,7 @@ describe("store create and idempotent sync", () => {
           detail: "",
           ref: null,
           provenance: "manual",
+          network: false,
         },
       ]);
     } catch (error) {
