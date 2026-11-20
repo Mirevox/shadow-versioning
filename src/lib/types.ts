@@ -27,10 +27,12 @@ export interface SnapshotEvent {
   appcode: string;
   source: SourceKind;
   stage: Stage | null;
-  /** When the change happened upstream (or was reported to have happened). */
+  /** When the change happened upstream (or was reported to have happened). Display only. */
   occurredAt: string;
-  /** When Mirevox recorded the snapshot. */
+  /** When Mirevox recorded the snapshot (server clock — governs timeline order). */
   recordedAt: string;
+  /** Monotonic per-project append order assigned by the store. */
+  sequenceNumber: number;
   title: string;
   detail: string;
   /** Upstream reference such as a page id, commit sha, or run id. */
@@ -65,5 +67,8 @@ export interface StoreShape {
   projects: Record<string, ProjectRecord>;
 }
 
-export type NewSnapshot = Omit<SnapshotEvent, "id" | "recordedAt" | "upstreamWritten"> &
-  Partial<Pick<SnapshotEvent, "id" | "recordedAt">>;
+export type NewSnapshot = Omit<
+  SnapshotEvent,
+  "id" | "recordedAt" | "upstreamWritten" | "sequenceNumber"
+> &
+  Partial<Pick<SnapshotEvent, "id" | "recordedAt" | "sequenceNumber">>;

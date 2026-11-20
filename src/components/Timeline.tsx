@@ -35,7 +35,9 @@ export function Timeline({
   }
 
   const ordered = [...events].sort(
-    (a, b) => Date.parse(b.occurredAt) - Date.parse(a.occurredAt),
+    (a, b) =>
+      Date.parse(b.recordedAt) - Date.parse(a.recordedAt) ||
+      (b.sequenceNumber ?? 0) - (a.sequenceNumber ?? 0),
   );
 
   return (
@@ -59,8 +61,11 @@ export function Timeline({
               {event.title}
             </h3>
             <time className="text-xs text-[var(--muted)]">
-              {formatWhen(event.occurredAt)}
+              recorded {formatWhen(event.recordedAt)}
             </time>
+            {event.sequenceNumber ? (
+              <span className="text-xs text-[var(--muted)]">#{event.sequenceNumber}</span>
+            ) : null}
           </div>
           <p className="mt-1 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">
             {event.detail}

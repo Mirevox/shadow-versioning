@@ -93,6 +93,7 @@ export function recordStageSnapshot(
     ref: input.ref ?? null,
     provenance: input.provenance ?? "manual",
     network: false,
+    sequenceNumber: 0,
   };
 }
 

@@ -32,6 +32,8 @@ export function makeStubConnector(spec: StubSpec): Connector {
           provenance: "stub",
           upstreamWritten: false,
           network: false,
+          // sequenceNumber assigned by the store on append
+          sequenceNumber: 0,
         },
       ];
     },

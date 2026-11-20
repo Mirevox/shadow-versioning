@@ -75,6 +75,7 @@ export function seedSnapshots(): SnapshotEvent[] {
     id: `${SEED_APPCODE}:seed:${i + 1}`,
     appcode: SEED_APPCODE,
     recordedAt: r.occurredAt,
+    sequenceNumber: i + 1,
     upstreamWritten: false,
     network: false,
   }));

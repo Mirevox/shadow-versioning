@@ -91,10 +91,13 @@ function parseBindings(value: unknown): ConnectorBinding[] {
     if (!b || !SOURCE_KINDS.includes(b.source as never)) {
       throw new StoreError(`binding source must be one of ${SOURCE_KINDS.join(", ")}`, "invalid");
     }
+    if (b.mode === "live") {
+      throw new StoreError("v1 rejects mode:\"live\"; use stub connectors only", "invalid");
+    }
     return {
       source: b.source!,
       target: str(b.target, `${b.source}://unconfigured`),
-      mode: b.mode === "live" ? "live" : "stub",
+      mode: "stub" as const,
       enabled: b.enabled !== false,
     };
   });
@@ -123,6 +126,28 @@ export function createProject(input: CreateProjectInput, now: Date = new Date())
   return record;
 }
 
+export interface UpdateProjectInput {
+  name?: unknown;
+  description?: unknown;
+  owner?: unknown;
+  bindings?: unknown;
+}
+
+/** Mutates manifest fields only — never clears or rewrites the snapshot ledger. */
+export function updateProject(appcode: string, input: UpdateProjectInput): ProjectRecord {
+  const state = load();
+  const record = state.projects[appcode];
+  if (!record) throw new StoreError(`Project "${appcode}" not found`, "not-found");
+  if (input.name !== undefined) record.manifest.name = str(input.name, record.manifest.name);
+  if (input.description !== undefined) {
+    record.manifest.description = str(input.description, record.manifest.description);
+  }
+  if (input.owner !== undefined) record.manifest.owner = str(input.owner, record.manifest.owner);
+  if (input.bindings !== undefined) record.manifest.bindings = parseBindings(input.bindings);
+  save(state);
+  return withSortedTimeline(record);
+}
+
 /**
  * Appends snapshots to a project's timeline. Snapshots whose id already exists
  * are skipped, which keeps repeated stub syncs idempotent. Returns only the
@@ -138,6 +163,8 @@ export function appendSnapshots(
   if (!record) throw new StoreError(`Project "${appcode}" not found`, "not-found");
   const known = new Set(record.snapshots.map((s) => s.id));
   const added: SnapshotEvent[] = [];
+  let nextSeq =
+    record.snapshots.reduce((max, s) => Math.max(max, s.sequenceNumber ?? 0), 0) + 1;
   incoming.forEach((n, i) => {
     const id = n.id ?? `${appcode}:${now.getTime()}:${record.snapshots.length + i}`;
     if (known.has(id)) return;
@@ -147,6 +174,7 @@ export function appendSnapshots(
       id,
       appcode,
       recordedAt: n.recordedAt ?? now.toISOString(),
+      sequenceNumber: n.sequenceNumber ?? nextSeq++,
       upstreamWritten: false,
       network: n.network ?? false,
     };

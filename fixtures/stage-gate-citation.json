@@ -1,0 +1,11 @@
+{
+  "description": "Sample stage-gate citation fixture for conceptual integration tests",
+  "appcode": "appcode-demo-0",
+  "event": {
+    "stage": "release",
+    "outcome": "advanced",
+    "detail": "Approvers cleared the release gate.",
+    "ref": "gate:release-1"
+  },
+  "curl": "curl -sS -X POST http://127.0.0.1:3847/api/projects/appcode-demo-0/stage-events -H 'content-type: application/json' -d '{\"stage\":\"release\",\"outcome\":\"advanced\",\"detail\":\"Approvers cleared the release gate.\"}'"
+}

@@ -5,11 +5,15 @@ import { useState, useTransition } from "react";
 
 export function ProjectActions({ appcode }: { appcode: string }) {
   const router = useRouter();
+  const [busy, setBusy] = useState(false);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
+  const disabled = busy || pending;
 
   async function runSync() {
+    if (disabled) return;
+    setBusy(true);
     setError(null);
     setNote(null);
     try {
@@ -22,10 +26,14 @@ export function ProjectActions({ appcode }: { appcode: string }) {
       startTransition(() => router.refresh());
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sync failed");
+    } finally {
+      setBusy(false);
     }
   }
 
   async function recordAdvance() {
+    if (disabled) return;
+    setBusy(true);
     setError(null);
     setNote(null);
     try {
@@ -45,6 +53,8 @@ export function ProjectActions({ appcode }: { appcode: string }) {
       startTransition(() => router.refresh());
     } catch (err) {
       setError(err instanceof Error ? err.message : "Stage event failed");
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -54,21 +64,29 @@ export function ProjectActions({ appcode }: { appcode: string }) {
         <button
           type="button"
           onClick={runSync}
-          disabled={pending}
+          disabled={disabled}
+          aria-busy={busy}
           className="rounded-md bg-[var(--neon)] px-4 py-2 text-sm font-semibold text-[#041016] transition hover:brightness-110 disabled:opacity-60"
         >
-          Run stub sync
+          {busy ? "Working…" : "Run stub sync"}
         </button>
         <button
           type="button"
           onClick={recordAdvance}
-          disabled={pending}
+          disabled={disabled}
           className="rounded-md border border-[var(--line)] px-4 py-2 text-sm text-[var(--ink)] transition hover:border-[var(--neon)] hover:text-[var(--neon)] disabled:opacity-60"
         >
           Record stage-gate advance
         </button>
       </div>
-      {error ? <p className="text-sm text-[var(--danger)]">{error}</p> : null}
+      {error ? (
+        <p role="alert" className="text-sm text-[var(--danger)]">
+          {error}{" "}
+          <button type="button" className="underline" onClick={runSync}>
+            Retry
+          </button>
+        </p>
+      ) : null}
       {note ? <p className="text-sm text-[var(--ok)]">{note}</p> : null}
     </div>
   );
