@@ -68,7 +68,7 @@ export function ProjectActions({ appcode }: { appcode: string }) {
           aria-busy={busy}
           className="rounded-md bg-[var(--neon)] px-4 py-2 text-sm font-semibold text-[#041016] transition hover:brightness-110 disabled:opacity-60"
         >
-          {busy ? "Working…" : "Run stub sync"}
+          {busy ? "Working…" : "Add sample ledger events"}
         </button>
         <button
           type="button"

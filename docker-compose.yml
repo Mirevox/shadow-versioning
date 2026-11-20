@@ -1,0 +1,36 @@
+# One-command standup for Mirevox shadow-versioning (standalone; no Sherali stack).
+# Usage: docker compose up --build
+services:
+  shadow-versioning:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mirevox/shadow-versioning:0.1.0
+    container_name: mirevox-shadow-versioning
+    ports:
+      - "${PORT:-3847}:3847"
+    environment:
+      NODE_ENV: production
+      PORT: "3847"
+      HOSTNAME: "0.0.0.0"
+      MIREVOX_DATA_DIR: /data
+      # Stub connectors only in v1 — leave blank; never bake tokens into the image.
+      STAGE_GATE_WEBHOOK_URL: "${STAGE_GATE_WEBHOOK_URL:-}"
+    volumes:
+      - shadow-data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "-qO-",
+          "http://127.0.0.1:3847/api/health",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+    restart: unless-stopped
+
+volumes:
+  shadow-data:

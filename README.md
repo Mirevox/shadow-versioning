@@ -1,28 +1,52 @@
 # Mirevox Shadow Versioning
 
-Human-readable snapshot timelines bound by an **appcode** (`appcode-demo-0`), so non-technical teammates do not need Git verbs to follow project history.
+**License:** [Apache-2.0](./LICENSE)
 
-Part of the [Mirevox](https://github.com/Mirevox) open-source control-plane modules. Pairs with **stage-gate**: stage-gate owns promotion decisions; this module keeps the ledger.
+## Problem
 
-## What v1 ships
+Project history is split across documents, code, test tools, and release decisions. A reviewer often has to open several systems—and ask an engineer to translate Git—to work out what changed and what evidence a gate used. Shadow Versioning groups those references under one **appcode** and presents a read-only timeline while each source remains authoritative. **This v1 uses local stub data; it does not connect to Confluence, SharePoint, Git, or test services.**
 
-- Appcode project manifests with bindings to Confluence, SharePoint, Git, and testing
-- File-backed store + seed project `appcode-demo-0`
-- Human-readable snapshot timeline UI
-- Stub connectors (clearly labelled `[stub/mock]`) — no live upstream calls
-- Stage-owned sync model (documented in-app and in `docs/`)
-- Conceptual stage-gate hook: `POST /api/projects/{appcode}/stage-events`
+Part of the [Mirevox](https://github.com/Mirevox) open-source control-plane modules. Pairs with **stage-gate** (gate decisions stay there; the ledger lives here).
 
-## Run locally
+## One-command Docker standup
+
+```bash
+cp .env.example .env   # optional; no secrets required for v1 stubs
+docker compose up --build
+```
+
+Open http://127.0.0.1:3847 — health: http://127.0.0.1:3847/api/health (`{"status":"ok",...}`).
+
+Data persists in Compose volume `shadow-data` (`MIREVOX_DATA_DIR=/data`). No API tokens are baked into the image.
+
+```bash
+docker compose down
+npm run docker:up    # alias for compose up --build
+```
+
+## Local (without Docker)
 
 ```bash
 npm install
 npm run dev    # http://127.0.0.1:3847
 npm test
-npm run build
+npm run build && npm start
 ```
 
-Data lives in `data/projects.json` (gitignored; reseeded when missing).
+Data defaults to `./data/projects.json` (gitignored; reseeded when missing). Override with `MIREVOX_DATA_DIR`.
+
+## What v1 ships (honest)
+
+| Capability | Status |
+| --- | --- |
+| Appcode manifests + seed `appcode-demo-0` | Yes |
+| Human-readable timeline UI (dark purple / neon-blue) | Yes |
+| Four stub connectors (Confluence, SharePoint, Git, testing) | Yes — `[stub/mock]`, zero network |
+| Stage-owned sync model (docs + enforcement) | Yes (slice) |
+| Stage-gate hook `POST /api/projects/{appcode}/stage-events` | Conceptual |
+| `GET /api/health`, Dockerfile, Compose HEALTHCHECK, `.env.example` | Yes |
+| Live upstream OAuth/API connectors | **Not in v1** |
+| Full FR-01…27 matrix in `docs/requirements.md` | **Aspirational** — see `docs/v1-scope.md` |
 
 ## Compose with other modules
 
@@ -35,12 +59,15 @@ Data lives in `data/projects.json` (gitignored; reseeded when missing).
 
 ## Docs
 
-- `docs/problem-opportunity.md`
-- `docs/requirements.md`
+- `docs/problem-statement.md` — problem we solve
+- `docs/problem-opportunity.md` — fuller opportunity brief
+- `docs/v1-scope.md` — intentional acceptance cut
+- `docs/requirements.md` — FR/NFR (aspirational beyond v1-scope)
 - `docs/architecture.md`
 - `docs/market-gap.md`
 - `docs/devils-advocate.md`
+- `docs/known-gaps.md` — production / validation honesty
 
 ## License
 
-Apache-2.0
+Copyright 2026 Mirevox contributors. Licensed under the Apache License, Version 2.0 — see [`LICENSE`](./LICENSE).

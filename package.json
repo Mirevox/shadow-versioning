@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 3847",
-    "build": "next build",
-    "start": "next start -p 3847",
+    "build": "next build && npm run prepare:standalone",
+    "prepare:standalone": "mkdir -p .next/standalone/.next && cp -r .next/static .next/standalone/.next/static && cp -r public .next/standalone/public",
+    "start": "HOSTNAME=0.0.0.0 PORT=3847 node .next/standalone/server.js",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",

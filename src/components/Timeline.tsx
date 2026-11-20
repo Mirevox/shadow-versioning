@@ -29,7 +29,7 @@ export function Timeline({
   if (!events.length) {
     return (
       <div className="rounded-xl border border-dashed border-[var(--line)] px-5 py-10 text-center text-[var(--muted)]">
-        {emptyHint ?? "No snapshots yet. Run a stub sync to pull sample events."}
+        {emptyHint ?? "No snapshots yet. Add sample ledger events with Run stub sync."}
       </div>
     );
   }
