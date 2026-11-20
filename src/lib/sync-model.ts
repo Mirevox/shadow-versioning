@@ -3,7 +3,7 @@ import { getConnector } from "./connectors";
 import type {
   AppcodeManifest,
   NewSnapshot,
-  SnapshotEvent,
+  Provenance,
   SourceKind,
   Stage,
   StageOwnership,
@@ -51,7 +51,7 @@ export interface StageSnapshotInput {
   detail?: string;
   ref?: string | null;
   occurredAt?: string;
-  provenance?: SnapshotEvent["provenance"];
+  provenance?: Provenance;
 }
 
 export class OwnershipError extends Error {
@@ -93,13 +93,12 @@ export function recordStageSnapshot(
     ref: input.ref ?? null,
     provenance: input.provenance ?? "manual",
     network: false,
-    sequenceNumber: 0,
   };
 }
 
 /** Runs every enabled stub connector whose source owns a stage for this manifest. */
-export async function runStubSync(manifest: AppcodeManifest, now: Date = new Date()): Promise<SnapshotEvent[]> {
-  const out: SnapshotEvent[] = [];
+export async function runStubSync(manifest: AppcodeManifest, now: Date = new Date()): Promise<NewSnapshot[]> {
+  const out: NewSnapshot[] = [];
   for (const binding of manifest.bindings) {
     if (!binding.enabled) continue;
     const connector = getConnector(binding.source);

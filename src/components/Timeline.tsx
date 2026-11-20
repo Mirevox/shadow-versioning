@@ -75,9 +75,13 @@ export function Timeline({
             {event.stage ? (
               <span className="text-[var(--neon)]">stage: {event.stage}</span>
             ) : null}
-            {event.provenance === "stub" || event.network === false ? (
+            {event.provenance === "stub" ? (
               <span className="rounded px-1.5 py-0.5 bg-[var(--neon-dim)] text-[var(--neon)]">
                 stub · no network
+              </span>
+            ) : event.network === false ? (
+              <span className="rounded px-1.5 py-0.5 bg-[var(--neon-dim)] text-[var(--muted)]">
+                local · no upstream call
               </span>
             ) : null}
           </div>

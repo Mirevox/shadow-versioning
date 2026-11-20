@@ -174,7 +174,11 @@ export function appendSnapshots(
       id,
       appcode,
       recordedAt: n.recordedAt ?? now.toISOString(),
-      sequenceNumber: n.sequenceNumber ?? nextSeq++,
+      // Treat 0/negative as unset — stubs historically passed sequenceNumber: 0.
+      sequenceNumber:
+        typeof n.sequenceNumber === "number" && n.sequenceNumber > 0
+          ? n.sequenceNumber
+          : nextSeq++,
       upstreamWritten: false,
       network: n.network ?? false,
     };

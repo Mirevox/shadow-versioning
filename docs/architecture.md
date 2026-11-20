@@ -10,6 +10,8 @@ cursor:
 **Status:** Architecture specification for runnable v1 slice  
 **Pairs with:** Mirevox `stage-gate` (workflow stepper + gatekeeper)
 
+> **Docs honesty (2026-11-20):** Large sections below describe a **target** stack (Hono, Vite SPA, SQLite, `/api/v1/*`, DriftAlert). The **shipped overnight tree** is Next.js 16 App Router + file JSON store (`data/projects.json`) on port `3847` with routes under `/api/*`. Treat `docs/v1-scope.md`, `docs/sync-model.md`, and `src/` as ground truth for what runs today.
+
 ---
 
 ## 1. Architectural Thesis & Design Principles

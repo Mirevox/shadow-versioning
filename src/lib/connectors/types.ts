@@ -1,4 +1,4 @@
-import type { ConnectorBinding, SnapshotEvent, SourceKind } from "../types";
+import type { ConnectorBinding, NewSnapshot, SourceKind } from "../types";
 
 export interface ConnectorContext {
   appcode: string;
@@ -10,7 +10,8 @@ export interface Connector {
   source: Exclude<SourceKind, "stage-gate">;
   /** Stub connectors return fixed, clearly labelled mock data and make no network calls. */
   stub: true;
-  fetchSnapshots(ctx: ConnectorContext): Promise<SnapshotEvent[]>;
+  /** Store assigns `sequenceNumber` on append — stubs omit it. */
+  fetchSnapshots(ctx: ConnectorContext): Promise<NewSnapshot[]>;
 }
 
 export const STUB_LABEL = "[stub/mock]";

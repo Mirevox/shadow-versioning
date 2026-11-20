@@ -18,11 +18,15 @@ Sign-off bar for the current push remains `docs/v1-scope.md`, not the full FR-01
 
 ## Product capability gaps vs locked `docs/requirements.md`
 
+Validation score at pre-fix HEAD (`2326aad`): **0 PASS / 27 PARTIAL / 10 FAIL** on FR+NFR (see internal `requirements-vs-build-validation.md`). After this follow-up: sequenceNumber monotonicity, stub badge honesty, lint Link fix, `docs/sync-model.md`, architecture honesty banner.
+
+Still open:
+
 - Live connectors, OAuth, and verified upstream provenance (`verified: true`) — stubs only.
 - Full SyncRun model, stage-scoped sync routes, multi-facet timeline filters, snapshot delta API — partial / missing.
 - Explicit stage-gate link CRUD + outbound emitter — conceptual hook + fixture only.
 - UI Empty/Loading/Error matrix + RTL/Playwright suite — incomplete vs FR-20/FR-27.
-- Architecture doc still describes a Hono/SQLite aspirational layout in places — treat code + `v1-scope.md` as truth until rewritten.
+- Architecture body still sketches Hono/SQLite in places — bannered; rewrite deferred.
 
 ## Market honesty
 

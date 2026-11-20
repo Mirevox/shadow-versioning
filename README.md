@@ -62,8 +62,9 @@ Data defaults to `./data/projects.json` (gitignored; reseeded when missing). Ove
 - `docs/problem-statement.md` — problem we solve
 - `docs/problem-opportunity.md` — fuller opportunity brief
 - `docs/v1-scope.md` — intentional acceptance cut
+- `docs/sync-model.md` — stage ownership as shipped
 - `docs/requirements.md` — FR/NFR (aspirational beyond v1-scope)
-- `docs/architecture.md`
+- `docs/architecture.md` — includes target-state sections; see honesty banner
 - `docs/market-gap.md`
 - `docs/devils-advocate.md`
 - `docs/known-gaps.md` — production / validation honesty
