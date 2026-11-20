@@ -70,9 +70,9 @@ export function Timeline({
             {event.stage ? (
               <span className="text-[var(--neon)]">stage: {event.stage}</span>
             ) : null}
-            {event.provenance === "stub" ? (
+            {event.provenance === "stub" || event.network === false ? (
               <span className="rounded px-1.5 py-0.5 bg-[var(--neon-dim)] text-[var(--neon)]">
-                stub
+                stub · no network
               </span>
             ) : null}
           </div>

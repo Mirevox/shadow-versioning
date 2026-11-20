@@ -148,6 +148,7 @@ export function appendSnapshots(
       appcode,
       recordedAt: n.recordedAt ?? now.toISOString(),
       upstreamWritten: false,
+      network: n.network ?? false,
     };
     record.snapshots.push(event);
     added.push(event);

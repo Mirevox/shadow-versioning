@@ -45,6 +45,11 @@ export default async function ProjectPage({
           >
             Snapshot timeline
           </h2>
+          <p className="text-sm text-[var(--muted)]">
+            Ledger of recorded observations — not a live mirror of upstream
+            systems. Newest row is the last thing we recorded, not guaranteed
+            ground truth.
+          </p>
           <Timeline events={snapshots} />
         </div>
 

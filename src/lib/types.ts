@@ -38,6 +38,11 @@ export interface SnapshotEvent {
   provenance: Provenance;
   /** Always false: shadow-versioning records observations and does not dual-write upstream. */
   upstreamWritten: false;
+  /**
+   * Stub connectors never leave the process. Live connectors may set true later.
+   * Devil’s-advocate rule: stub responses must advertise network:false.
+   */
+  network: boolean;
 }
 
 export interface AppcodeManifest {

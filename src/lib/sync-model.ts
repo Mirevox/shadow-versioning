@@ -92,6 +92,7 @@ export function recordStageSnapshot(
     detail: input.detail ?? "",
     ref: input.ref ?? null,
     provenance: input.provenance ?? "manual",
+    network: false,
   };
 }
 

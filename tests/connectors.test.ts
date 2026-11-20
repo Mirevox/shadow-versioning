@@ -22,6 +22,7 @@ describe("connector stubs", () => {
       expect(events.length).toBeGreaterThan(0);
       expect(events[0].provenance).toBe("stub");
       expect(events[0].upstreamWritten).toBe(false);
+      expect(events[0].network).toBe(false);
       expect(events[0].title).toContain(STUB_LABEL);
       expect(events[0].source).toBe(connector.source);
     }

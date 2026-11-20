@@ -76,6 +76,7 @@ export function seedSnapshots(): SnapshotEvent[] {
     appcode: SEED_APPCODE,
     recordedAt: r.occurredAt,
     upstreamWritten: false,
+    network: false,
   }));
 }
 

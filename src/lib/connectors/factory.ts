@@ -31,6 +31,7 @@ export function makeStubConnector(spec: StubSpec): Connector {
           ref: spec.ref,
           provenance: "stub",
           upstreamWritten: false,
+          network: false,
         },
       ];
     },
