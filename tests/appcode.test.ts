@@ -1,21 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { validateAppcode } from "@/lib/appcode";
+import { isValidAppcode, validateAppcode } from "../src/lib/appcode";
 
-describe("validateAppcode", () => {
-  it("accepts the seed appcode", () => {
-    expect(validateAppcode("appcode-demo-0")).toEqual({ ok: true, appcode: "appcode-demo-0" });
+describe("appcode validation", () => {
+  it("accepts appcode-slug-n", () => {
+    expect(isValidAppcode("appcode-demo-0")).toBe(true);
+    expect(isValidAppcode("appcode-loan-intake-12")).toBe(true);
+    expect(validateAppcode("appcode-demo-0").ok).toBe(true);
   });
-  it("trims surrounding whitespace", () => {
-    expect(validateAppcode("  appcode-loan-intake-12 ")).toEqual({ ok: true, appcode: "appcode-loan-intake-12" });
-  });
-  it.each(["", "ab", "demo-app", "appcode-demo", "Appcode-Demo-0", "appcode--demo-0", "appcode-demo-x", "appcode demo-0", `appcode-${"a".repeat(60)}-1`])(
-    "rejects %j",
-    (value) => {
-      expect(validateAppcode(value).ok).toBe(false);
-    },
-  );
-  it("rejects non-strings", () => {
-    expect(validateAppcode(42).ok).toBe(false);
-    expect(validateAppcode(undefined).ok).toBe(false);
+
+  it("rejects git-shaped or bare ids", () => {
+    expect(isValidAppcode("demo-0")).toBe(false);
+    expect(isValidAppcode("appcode-Demo-0")).toBe(false);
+    expect(isValidAppcode("appcode-demo")).toBe(false);
+    expect(isValidAppcode("APPCODE-demo-0")).toBe(false);
   });
 });

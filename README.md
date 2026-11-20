@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mirevox Shadow Versioning
 
-## Getting Started
+Human-readable snapshot timelines bound by an **appcode** (`appcode-demo-0`), so non-technical teammates do not need Git verbs to follow project history.
 
-First, run the development server:
+Part of the [Mirevox](https://github.com/Mirevox) open-source control-plane modules. Pairs with **stage-gate**: stage-gate owns promotion decisions; this module keeps the ledger.
+
+## What v1 ships
+
+- Appcode project manifests with bindings to Confluence, SharePoint, Git, and testing
+- File-backed store + seed project `appcode-demo-0`
+- Human-readable snapshot timeline UI
+- Stub connectors (clearly labelled `[stub/mock]`) — no live upstream calls
+- Stage-owned sync model (documented in-app and in `docs/`)
+- Conceptual stage-gate hook: `POST /api/projects/{appcode}/stage-events`
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev    # http://127.0.0.1:3847
+npm test
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Data lives in `data/projects.json` (gitignored; reseeded when missing).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Compose with other modules
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Module | Relationship |
+| --- | --- |
+| stage-gate | Posts stage advances; owns release decisions |
+| smart-router | Future: route connector credentials |
+| context-engine | Future: index snapshot text for agents |
+| website | Showcase page links here |
 
-## Learn More
+## Docs
 
-To learn more about Next.js, take a look at the following resources:
+- `docs/problem-opportunity.md`
+- `docs/requirements.md`
+- `docs/architecture.md`
+- `docs/market-gap.md`
+- `docs/devils-advocate.md`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Apache-2.0

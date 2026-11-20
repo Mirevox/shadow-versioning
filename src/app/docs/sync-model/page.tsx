@@ -3,7 +3,7 @@ import { DEFAULT_OWNERSHIP, ownershipBlurb } from "@/lib/sync-model";
 
 export default function SyncModelPage() {
   return (
-    <article className="prose-invert mx-auto max-w-3xl space-y-8">
+    <article className="mx-auto max-w-3xl space-y-8">
       <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--neon)]">
         ← Home
       </Link>
@@ -33,7 +33,8 @@ export default function SyncModelPage() {
               className="border-t border-[var(--line)] pt-4 text-[var(--muted)]"
             >
               <div className="text-[var(--neon)]">
-                {row.stage} → <strong className="text-[var(--ink)]">{row.owner}</strong>
+                {row.stage} →{" "}
+                <strong className="text-[var(--ink)]">{row.owner}</strong>
               </div>
               <p className="mt-1">{row.rationale}</p>
               <p className="mt-1 text-sm opacity-80">{ownershipBlurb(row)}</p>

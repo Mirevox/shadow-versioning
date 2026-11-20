@@ -17,7 +17,7 @@ export function ProjectActions({ appcode }: { appcode: string }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Sync failed");
       setNote(
-        `Added ${data.added ?? 0} snapshot(s). ${data.note ?? ""}`.trim(),
+        `Added ${data.added ?? 0} of ${data.fetched ?? 0} stub snapshot(s). ${data.note ?? ""}`.trim(),
       );
       startTransition(() => router.refresh());
     } catch (err) {
@@ -41,7 +41,7 @@ export function ProjectActions({ appcode }: { appcode: string }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Stage event failed");
-      setNote("Stage-gate event appended.");
+      setNote(data.duplicate ? "Duplicate stage event skipped." : "Stage-gate event appended.");
       startTransition(() => router.refresh());
     } catch (err) {
       setError(err instanceof Error ? err.message : "Stage event failed");

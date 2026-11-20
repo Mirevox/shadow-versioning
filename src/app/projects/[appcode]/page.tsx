@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectActions } from "@/components/ProjectActions";
 import { Timeline } from "@/components/Timeline";
-import { getProject, getTimeline } from "@/lib/store";
+import { getProject } from "@/lib/store";
 import { ownershipBlurb } from "@/lib/sync-model";
 
 export const dynamic = "force-dynamic";
@@ -13,11 +13,10 @@ export default async function ProjectPage({
   params: Promise<{ appcode: string }>;
 }) {
   const { appcode } = await params;
-  const project = await getProject(appcode);
+  const project = getProject(appcode);
   if (!project) notFound();
 
-  const timeline = (await getTimeline(appcode)) ?? [];
-  const { manifest } = project;
+  const { manifest, snapshots } = project;
 
   return (
     <div className="space-y-10">
@@ -46,7 +45,7 @@ export default async function ProjectPage({
           >
             Snapshot timeline
           </h2>
-          <Timeline events={timeline} />
+          <Timeline events={snapshots} />
         </div>
 
         <aside className="space-y-8">
@@ -59,11 +58,15 @@ export default async function ProjectPage({
             </h3>
             <ul className="space-y-3 text-sm">
               {manifest.bindings.map((b) => (
-                <li key={b.source} className="border-t border-[var(--line)] pt-3">
+                <li
+                  key={`${b.source}-${b.target}`}
+                  className="border-t border-[var(--line)] pt-3"
+                >
                   <div className="text-[var(--purple-soft)]">
                     {b.source} · {b.mode}
+                    {!b.enabled ? " · disabled" : ""}
                   </div>
-                                    <div className="break-all text-[var(--muted)]">{b.target}</div>
+                  <div className="break-all text-[var(--muted)]">{b.target}</div>
                 </li>
               ))}
             </ul>

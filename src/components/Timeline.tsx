@@ -6,7 +6,6 @@ const SOURCE_COLOR: Record<string, string> = {
   git: "#5dffa8",
   testing: "#fbbf24",
   "stage-gate": "#3df2ff",
-  manual: "#e9d5ff",
 };
 
 function formatWhen(iso: string): string {
@@ -35,10 +34,14 @@ export function Timeline({
     );
   }
 
+  const ordered = [...events].sort(
+    (a, b) => Date.parse(b.occurredAt) - Date.parse(a.occurredAt),
+  );
+
   return (
     <ol className="relative space-y-0 border-l border-[var(--line)] pl-6">
       <span className="timeline-rail absolute -left-px top-0 h-full w-px bg-gradient-to-b from-[var(--neon)] via-[var(--purple-soft)] to-transparent" />
-      {events.map((event, index) => (
+      {ordered.map((event, index) => (
         <li
           key={event.id}
           className="animate-rise relative pb-8 last:pb-0"
@@ -55,7 +58,9 @@ export function Timeline({
             >
               {event.title}
             </h3>
-            <time className="text-xs text-[var(--muted)]">{formatWhen(event.occurredAt)}</time>
+            <time className="text-xs text-[var(--muted)]">
+              {formatWhen(event.occurredAt)}
+            </time>
           </div>
           <p className="mt-1 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">
             {event.detail}

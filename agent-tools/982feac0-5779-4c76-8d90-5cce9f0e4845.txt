@@ -1,0 +1,239 @@
+Codebeamer ALM Integrations for Requirements & Lifecycle Management | PTC
+
+# Seamless Integrations for Requirements & Lifecycle Management 
+
+Discover how Codebeamer connects with leading tools to streamline requirements, testing, and lifecycle management while ensuring full traceability and collaboration.
+
+## Seamless integrations for requirements & lifecycle management 
+
+Codebeamer integrates with leading tools to streamline requirements, testing, and lifecycle management. Enjoy full traceability, collaboration, and efficiency across your development processes. Connect with IBM DOORS, MS Office, Jira, Jenkins, Git, PLM tools, and more for consistent, synchronized workflows that enhance productivity and compliance.
+
+## Comprehensive Codebeamer integrations
+
+Connect Codebeamer with leading tools to unify requirements, testing, development, and lifecycle management for streamlined collaboration.
+
+### Requirements management
+
+Codebeamer ALM offers powerful requirements management capabilities, enabling seamless integration with industry-standard tools to import, export, and synchronize requirements data. Maintain traceability, ensure compliance, and enhance collaboration with integrations such as IBM Rational DOORS Bridge and ReqIF for efficient lifecycle management.
+
+#### IBM Rational DOORS Bridge
+
+Codebeamer’s DOORS Bridge migration facility builds on our native integration with IBM® Rational® DOORS® and enables data migration without quantity limitations. It lets you import and reimport requirements including baselines, discussions, history, link attributes, and the relations of artifacts. DOORS Bridge enables you to maintain DOORS as a project history archive while managing your requirements in Codebeamer.
+
+#### ReqIF
+
+Codebeamer supports the Requirements Interchange Format (ReqIF) to exchange items, relations, and specifications between platforms. This ensures smooth interoperability with other requirement or test management systems. Easily re-import and re-export ReqIF data while preserving traceability and consistency across projects.
+
+### MS Office
+
+Integrate Codebeamer with Microsoft Office for round-trip requirements management in Word and Excel. Collaborate seamlessly with internal teams and external partners by editing documents offline, then reimporting them with full change tracking and approval workflows.
+
+#### MS Word
+
+Export requirements from Codebeamer ALM into MS Word for offline editing. Collaborate easily across teams, then reimport the document to apply tracked changes, approve or reject modifications, and ensure data consistency. This process simplifies collaboration and maintains full version history.
+
+#### MS Excel
+
+Leverage Codebeamer ALM’s Excel round-trip feature to export and collaborate on requirements or work items. After reimport, the system flags all changes for review, enabling approval or rejection of individual modifications.
+
+#### Codebeamer Teams Integration (NCTI) – Nanga Systems 
+
+NCTI seamlessly connects PTC Codebeamer with Microsoft Teams so teams work where they communicate. Embed Kanban boards, receive real-time notifications, access wikis, and create or edit work items directly in Teams. Contextual dialogs keep mandatory fields consistent, change history stays visible inline, and stable Microsoft authentication secures long sessions across desktop and mobile. NCTI turns Teams into the productive center of your Codebeamer development processes.
+
+### Design & modeling
+
+Codebeamer integrates with leading design and modeling tools to establish traceable, cross-tool connections between requirements, architecture, and development artifacts. These integrations support traceability, impact analysis, and collaborative development across engineering disciplines, ensuring a smooth flow of information from requirements to release.
+
+#### PTC Modeler
+
+The Codebeamer–PTC Modeler OSLC integration enables traceable connections between systems engineering artifacts using the OSLC standard. PTC Modeler can link to Codebeamer data, create OSLC links and surrogates for requirements, and provide cross-tool visibility. This enhances traceability, impact analysis, and collaborative systems development across tools.
+
+#### Enterprise Architect
+
+Codebeamer ALM’s Enterprise Architect Connector 2.0 enables seamless data exchange between Enterprise Architect and Codebeamer. Import UML diagrams into ALM workflows, use UML models to guide development, and maintain full traceability from requirements through testing. Synchronize data between both platforms to ensure accuracy and consistency.
+
+The developer of this integration is LieberLieber.
+
+#### Matlab Modeling Connector
+
+With the Matlab Modeling Connector, Codebeamer requirements can be linked to Simulink or System Composer model elements. Simulink Test cases can be executed in Simulink, and results are automatically propagated to Codebeamer ALM. This ensures tight integration between modeling, testing, and requirements management.
+
+#### IBM Rhapsody Codebeamer Integration - Arorian 
+
+The IBM Rhapsody and Codebeamer integration from AroTrace delivers configuration-aware MBSE–ALM traceability across architecture models, requirements, changes, tests, variants, and baselines. An AroTrace client application lets engineers create, inspect, and manage governed links directly in Rhapsody. Cross-tool impact analysis and orchestration coordinate model and requirement changes, verification reviews, and compliance evidence without duplicating data or disrupting native engineering workflows. Developed and supported by Arorian Technologies.
+
+### Agile and defect management
+
+Codebeamer ALM supports agile planning and defect tracking with integrations to popular tools like Jira Software. These integrations provide bidirectional data flow, ensuring all teams have synchronized, up-to-date information. Maintain traceability across tools while closing communication gaps between development, QA, and business teams.
+
+#### Jira Software
+
+Codebeamer’s Jira integration enables bidirectional data exchange between Jira projects and Codebeamer ALM. Import or export issues, synchronize updates automatically, and maintain complete traceability across both systems. Sync intervals can be as frequent as every 2 minutes, ensuring timely updates and better collaboration between teams.
+
+#### Jira Codebeamer Connector (JCC) – Nanga Systems 
+
+JCC delivers fully configurable, event-based real-time synchronization between Atlassian Jira and PTC Codebeamer. Build sync configurations in a graphical UI, map standard and custom fields, and set value mappings for constrained fields using static values, regex, and wildcards. Convert rich text, include attachment links, and monitor sync health through an error view with manual or automatic retry. JCC scales horizontally and vertically without unwanted background changes.
+
+#### Codebeamer and Azure DevOps Integration - Arorian 
+
+The Codebeamer and Azure DevOps integration from AroTrace connects requirements and tests in Codebeamer with epics, user stories, tasks, defects, pipelines, builds, and releases in Azure DevOps. Teams can use bidirectional synchronization or governed links, while configurable orchestration coordinates cross-tool handoffs, status feedback, quality gates, and release-readiness workflows. End-to-end traceability connects requirements to delivery without replacing either tool’s native process. Developed and supported by Arorian Technologies.
+
+#### Codebeamer and Jira Integration - Aroria 
+
+The Codebeamer and Jira integration from AroTrace goes beyond standard issue synchronization by supporting governed, link-based traceability across requirements, epics, stories, defects, tests, and change items. Teams can keep each tool as the source of truth or use configurable bidirectional synchronization where data replication is required. Cross-tool orchestration coordinates actions, status transitions, reviews, and impact analysis across ALM and agile delivery. Developed and supported by Arorian Technologies.
+
+### CI/CD
+
+Codebeamer ALM integrates with continuous integration and delivery tools to connect build, test, and deployment pipelines directly with your application lifecycle management processes. These integrations automate workflows, propagate build results, and trigger jobs based on ALM events, ensuring fast feedback, traceability, and improved collaboration between development and operations teams.
+
+#### Jenkins
+
+Codebeamer’s Jenkins plugin allows communication between Jenkins and Codebeamer servers. Jenkins build results can be propagated back to Codebeamer, and jobs can be triggered as workflow actions in ALM processes. This integration ensures that CI/CD activities remain synchronized with requirements, tests, and releases, improving visibility and process automation.
+
+#### Jenkins and Codebeamer Integration - Arorian 
+
+The Jenkins and Codebeamer integration from AroTrace connects requirements and tests with Jenkins builds, pipelines, automated test results, and release evidence. It synchronizes build and test outcomes into Codebeamer and can orchestrate cross-tool actions when builds complete, tests fail, or stages are blocked. Governed, versioned links preserve requirement-to-test-to-build traceability and provide release and audit evidence without replacing existing Jenkins pipelines. Developed and supported by Arorian Technologies.
+
+### Test management
+
+Codebeamer ALM supports comprehensive test management by integrating with industry-leading testing tools. These integrations connect requirements to test cases and execution results, enable bidirectional data exchange, and maintain traceability to ensure compliance, quality, and efficient defect resolution.
+
+Test engineers can map and define automated tests in VectorCast based on requirements in Codebeamer. They can easily react to requirement changes, as the integration will highlight changed requirements in VectorCast.
+
+The developer of this integration is Vector.
+
+#### VectorCast
+
+VectorCAST is an automated unit and integration testing solution for embedded systems in industries like avionics, medical devices, automotive, and rail. Integrating VectorCAST with Codebeamer ALM enables requirements traceability, automated test execution, and synchronized reporting to ensure safety-critical and business-critical systems meet quality standards
+
+#### VTestStudio
+
+VTestStudio provides an environment for creating automated ECU tests, with execution and reporting handled by CANoe. Integrated with Codebeamer ALM, this setup supports requirements traceability, execution planning, and test reporting, ensuring smooth workflow integration from model testing to full system validation.
+
+The developer of this integration is Vector.
+
+#### LDRA
+
+LDRA integration links source code functions to requirements in Codebeamer, ensuring full coverage and justification. Test cases can be pulled into LDRA, executed, and results pushed back to ALM, enabling traceability and compliance verification for safety-critical software development.
+
+The developer of this integration is LDRA.
+
+#### Parasoft
+
+Parasoft C/C++test integrates with Codebeamer ALM to deliver static analysis, runtime analysis, security testing, and coverage reporting. TÜV SÜD-certified for safety-critical use, it allows test cases to be linked to requirements and results synced back to ALM, closing the loop in verification and validation workflows.
+
+The developer of this integration is Parasoft.
+
+#### dSPACE SYNECT 
+
+With this end-to-end tool combination, Codebeamer users benefit from a straightforward way to include HIL and SIL testing in their overall testing strategy and to establish full traceability from requirements and tests to individual test runs. SYNECT users benefit from direct access to test specifications and requirements in Codebeamer ALM, enabling them to create and plan highly automated HIL and SIL tests. Testers working with this integrated solution benefit from SYNECT’s broad support of HIL and SIL test tools and its sophisticated automation capabilities for preparing the simulation system.
+
+The developer of this integration is dSPACE.
+
+#### Test Resource Management (NTRM) – Nanga Systems 
+
+NTRM (NANGA Test Resource Management) enables seamless booking and management of test resources directly within PTC Codebeamer. Plan, reserve, and manage shared test equipment and environments without leaving your ALM tool, improving visibility and avoiding scheduling conflicts across teams and projects.
+
+### Source code management
+
+Codebeamer ALM integrates with major SCM systems, enabling traceability from commits to requirements, tasks, and defects. Whether using Git, SubVersion, Perforce, Bitbucket, GitLab, or GitHub, changes are linked to ALM work items for complete visibility and control.
+
+#### Bitbucket & Gitlab
+
+Integrate Bitbucket or GitLab with Codebeamer ALM via webhooks to automatically track repository changes. Commits, merges, and branches can be linked to work items for traceability across the development lifecycle.
+
+#### Github
+
+Codebeamer ALM integrates with GitHub to provide traceability from repository activity to requirements and defects. Webhooks link commits to work items, and GitHub Actions can be triggered automatically from ALM workflows.
+
+#### Git / SubVersion / Perforce
+
+Codebeamer offers unified repository management across Git, SubVersion, and Perforce, with role-based access controls and fine-grained permissions. Version control activity is linked directly to ALM work items for consistent, auditable change tracking.
+
+#### GitLab and Codebeamer Integration - Arorian 
+
+The GitLab and Codebeamer integration from AroTrace establishes governed requirement-to-code traceability across requirements, commits, branches, merge requests, pipelines, and releases. Developer references can create links automatically without copying source data. AroTrace maintains link ownership, rationale, and history; flags stale, orphaned, or unreviewed links; and supports impact analysis and configuration-specific compliance evidence while preserving GitLab workflows. Developed and supported by Arorian Technologies.
+
+### PLM
+
+Codebeamer ALM connects with PLM systems like Windchill to unify application and product lifecycle management. Using OSLC standards, teams can establish bidirectional traceability between requirements, models, and test cases for cross-tool visibility, impact analysis, and compliance tracking.
+
+#### Windchill
+
+The Codebeamer–Windchill OSLC integration lets users create and manage OSLC links across both systems, enabling visibility into related artifacts. This ensures that engineering changes in one environment are reflected in the other, improving coordination and compliance readiness.
+
+#### Codebeamer and Teamcenter Integration - Arorian
+
+The Codebeamer and Teamcenter integration from AroTrace connects ALM and PLM by mapping requirements, tests, software baselines, parts, BOMs, product configurations, and engineering changes. A configurable transformation layer aligns different data models, while synchronization, governed links, and cross-tool orchestration coordinate lifecycle handoffs. Configuration-aware traceability and impact analysis connect software changes with the physical product structure without forcing one system to own all data. Developed and supported by Arorian Technologies.
+
+### Integration hubs
+
+Codebeamer ALM supports integration hubs to connect with a wide range of tools and platforms. These hubs enable large-scale synchronization of artifacts and relationships, ensuring smooth data flow and unified visibility across the development ecosystem.
+
+Tasktop connects Codebeamer ALM to over 100 applications, enabling automated artifact and relationship transfer. It supports tools from Atlassian, IBM, MicroFocus, Microsoft, PTC, Jama, and more, ensuring data consistency across the value stream.
+
+#### Rest and Swagger API
+
+Use Codebeamer ALM’s REST or Swagger APIs to build custom integrations with any tool. The platform’s open architecture offers flexibility for connecting systems, automating workflows, and extending functionality.
+
+### Migration
+
+#### NANGA Migrator – Nanga Systems 
+
+Transfers all data from the Workflows and Documents segment of PTC Windchill RV&S directly into PTC Codebeamer. The NANGA Migrator handles customized data models with their item and document types, preserving relationships and ensuring data integrity. It replaces slow, error-prone manual migration with an industry-leading, phased path from legacy ALM tooling to a modern Codebeamer environment.
+
+#### IBM DOORS to Codebeamer Migration - Arorian 
+
+AroMigrator provides controlled IBM DOORS to Codebeamer migration for requirements, module hierarchies, attributes, links, attachments, discussions, history, and baselines. Configurable transformation rules support module-to-tracker mapping, merging, splitting, and customer-specific target models. Automated validation and reconciliation verify completeness, preserve traceability, reduce downtime, and create an auditable migration path for enterprise ALM programs. Developed and supported by Arorian Technologies.
+
+#### IBM DOORS NG to Codebeamer Migration - Arorian 
+
+AroMigrator automates IBM DOORS NG to Codebeamer migration while preserving requirements, module and folder structures, attributes, links, attachments, baselines, and custom configurations. Its configurable transformation layer maps Jazz-based data structures to the target Codebeamer model and supports phased or incremental migration. Automated validation and reconciliation verify completeness, maintain traceability and data integrity, and reduce migration risk and downtime. Developed and supported by Arorian Technologies.
+
+#### Polarion to Codebeamer Migration - Arorian 
+
+AroMigrator supports controlled Polarion to Codebeamer migration for requirements, work items, tests, defects, documents, relationships, attachments, and history. Configurable extraction and transformation rules map Polarion types, fields, states, links, and workflows to the target Codebeamer model, including customer-specific structures. Automated validation, reconciliation, and migration reporting preserve traceability, demonstrate completeness, and reduce risk during enterprise ALM transition. Developed and supported by Arorian Technologies.
+
+#### Windchill RV&S to Codebeamer Migration - Arorian 
+
+AroMigrator provides controlled Windchill RV&S to Codebeamer migration for requirements, tests, change items, workflows, relationships, attachments, and history. Its configurable transformation layer maps RV&S item types, fields, states, and process logic to the target Codebeamer model, including customer-specific configurations. Automated validation and reconciliation preserve lifecycle context, verify completeness, and reduce migration risk and downtime. Developed and supported by Arorian Technologies.
+
+#### Codebeamer to Codebeamer Integration - Arorian 
+
+The Codebeamer-to-Codebeamer integration from AroTrace connects requirements, work items, tests, risks, and other engineering data across separate Codebeamer environments. Teams can synchronize selected information or use governed cross-instance links, while configurable orchestration manages lifecycle handoffs, reviews, and status feedback. Mapping, access-aware traceability, and impact analysis support collaboration across business units, restricted environments, customers, and suppliers without requiring one central instance. Developed and supported by Arorian Technologies.
+
+### IBM (Apptio) Targetprocess integration for PTC Codebeamer
+
+#### TP Codebeamer Connector (TCC) – Nanga Systems 
+
+TCC enables bidirectional synchronization between IBM Targetprocess (formerly Apptio Targetprocess) and PTC Codebeamer. Map item types and fields between both systems, keep work items aligned across teams, and connect agile portfolio planning in Targetprocess with engineering execution in Codebeamer. Configurable rules and field mappings ensure consistent, reliable data flow in both directions.
+
+### Tooling
+
+#### Codebeamer Export Suite (NCES) – Nanga Systems 
+
+NCES (NANGA Codebeamer Export Suite) creates high-quality, fully compliant and branded documents directly from PTC Codebeamer documents and reports. Using modern Aspose.Words templates, it produces consistent reports with structured data, charts, risk matrices, and corporate branding, and supports formats including PDF/A-1A for audits and archiving. Running as a separate service, NCES adds no load to your Codebeamer instance while removing the limits of standard reporting.
+
+#### Config Diff (NCD) – Nanga Systems 
+
+NCD (NANGA Config Diff) provides detailed configuration analyses for PTC Codebeamer. It brings clarity to the management of complex configurations, making differences transparent and enabling well-founded administrative decisions. With NCD, teams manage baselines and configurations more confidently, build new projects on existing results, reduce errors, and use resources efficiently.
+
+### Compliance
+
+#### Codebeamer Medical Validation (NCMV) – Nanga Systems 
+
+NANGA Codebeamer Medical Validation is a ready-to-use validation service for the Medical Software Engineering Template in PTC Codebeamer. It ensures your environment meets 21 CFR Part 11, EU MDR, and IEC 62304, covering relevant use cases with automated and manual test cases and complete, audit-ready documentation. The result: secure, traceable, regulator-proof processes without extra burden on your teams.
+
+### Project and Portfolio Management
+
+#### cplace and Codebeamer Integration - Arorian 
+
+The cplace and Codebeamer integration from AroTrace connects portfolio planning with engineering execution. It links programs, milestones, gates, and dependencies in cplace to Codebeamer requirements, baselines, tests, risks, and delivery evidence. Configurable mappings and cross-tool orchestration turn live engineering facts into portfolio status, dependency updates, and exception escalations—reducing manual reporting and exposing delivery risk earlier while both tools retain their native processes. Developed and supported by Arorian Technologies.
+
+### Engineering automation and AI
+
+#### Cross-Tool Automation & Engineering AI for Codebeamer - Arorian 
+
+AroAgent adds traceable engineering AI and workflow automation for Codebeamer. It combines Codebeamer data with connected ALM, PLM, MBSE, DevOps, and customer-document context to run configurable, workflows for change-impact analysis, traceability gap detection, requirements classification, compliance evidence, and test reuse. Embedded through AroTrace, AroAgent complements Codebeamer AI by extending reasoning and orchestration across the wider digital thread. Developed by Arorian Technologies.
+
+## Connect with a Codebeamer expert
