@@ -1,27 +1,47 @@
 import { describe, expect, it } from "vitest";
 import {
-  DEFAULT_STAGE_OWNERSHIP,
-  assertOwnershipComplete,
-  ownerForStage,
-} from "../src/lib/sync-model";
+  DEFAULT_OWNERSHIP,
+  OwnershipError,
+  ownerOf,
+  recordStageSnapshot,
+  stageOwnershipComplete,
+} from "@/lib/sync-model";
+import { STAGES } from "@/lib/types";
 
-describe("stage-owned sync model", () => {
-  it("maps every default stage to an owner", () => {
-    expect(ownerForStage(DEFAULT_STAGE_OWNERSHIP, "pre-requirements")).toBe(
-      "confluence",
-    );
-    expect(ownerForStage(DEFAULT_STAGE_OWNERSHIP, "requirements")).toBe(
-      "sharepoint",
-    );
-    expect(ownerForStage(DEFAULT_STAGE_OWNERSHIP, "build")).toBe("git");
-    expect(ownerForStage(DEFAULT_STAGE_OWNERSHIP, "test")).toBe("testing");
-    expect(ownerForStage(DEFAULT_STAGE_OWNERSHIP, "release")).toBe("stage-gate");
+const now = new Date("2026-03-01T00:00:00.000Z");
+
+describe("stage ownership", () => {
+  it("assigns exactly one owner to every stage", () => {
+    expect(stageOwnershipComplete(DEFAULT_OWNERSHIP)).toBe(true);
+    expect(DEFAULT_OWNERSHIP.map((o) => o.stage)).toEqual([...STAGES]);
   });
+  it("maps stages to the documented owners", () => {
+    expect(ownerOf("pre-requirements")).toBe("confluence");
+    expect(ownerOf("requirements")).toBe("sharepoint");
+    expect(ownerOf("build")).toBe("git");
+    expect(ownerOf("test")).toBe("testing");
+    expect(ownerOf("release")).toBe("stage-gate");
+  });
+  it("detects incomplete ownership", () => {
+    expect(stageOwnershipComplete(DEFAULT_OWNERSHIP.slice(1))).toBe(false);
+  });
+});
 
-  it("asserts completeness", () => {
-    expect(() => assertOwnershipComplete(DEFAULT_STAGE_OWNERSHIP)).not.toThrow();
+describe("recordStageSnapshot", () => {
+  it("records a stage-linked snapshot from the owning source", () => {
+    const s = recordStageSnapshot({ appcode: "appcode-demo-1", stage: "build", source: "git", title: "Merge" }, undefined, now);
+    expect(s.stage).toBe("build");
+    expect(s.source).toBe("git");
+    expect(s.recordedAt).toBe(now.toISOString());
+    expect(s.id?.startsWith("appcode-demo-1:build:")).toBe(true);
+  });
+  it("rejects a source that does not own the stage", () => {
     expect(() =>
-      assertOwnershipComplete(DEFAULT_STAGE_OWNERSHIP.slice(0, 2)),
-    ).toThrow(/No ownership/);
+      recordStageSnapshot({ appcode: "appcode-demo-1", stage: "build", source: "confluence", title: "Edit" }, undefined, now),
+    ).toThrow(OwnershipError);
+  });
+  it("produces stable ids for identical input", () => {
+    const input = { appcode: "appcode-demo-1", stage: "test" as const, source: "testing" as const, title: "Run", occurredAt: now.toISOString() };
+    expect(recordStageSnapshot(input, undefined, now).id).toBe(recordStageSnapshot(input, undefined, now).id);
   });
 });

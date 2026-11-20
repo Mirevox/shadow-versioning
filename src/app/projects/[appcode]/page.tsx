@@ -16,7 +16,7 @@ export default async function ProjectPage({
   const project = await getProject(appcode);
   if (!project) notFound();
 
-  const timeline = await getTimeline(appcode);
+  const timeline = (await getTimeline(appcode)) ?? [];
   const { manifest } = project;
 
   return (
@@ -33,11 +33,7 @@ export default async function ProjectPage({
         </h1>
         <p className="font-mono text-sm text-[var(--neon)]">{manifest.appcode}</p>
         <p className="max-w-3xl text-[var(--muted)]">{manifest.description}</p>
-        {manifest.stageGateRef ? (
-          <p className="text-sm text-[var(--purple-soft)]">
-            Stage-gate: {manifest.stageGateRef}
-          </p>
-        ) : null}
+        <p className="text-sm text-[var(--purple-soft)]">Owner: {manifest.owner}</p>
       </div>
 
       <ProjectActions appcode={appcode} />
@@ -63,12 +59,11 @@ export default async function ProjectPage({
             </h3>
             <ul className="space-y-3 text-sm">
               {manifest.bindings.map((b) => (
-                <li key={`${b.kind}-${b.ref}`} className="border-t border-[var(--line)] pt-3">
+                <li key={b.source} className="border-t border-[var(--line)] pt-3">
                   <div className="text-[var(--purple-soft)]">
-                    {b.kind} · {b.mode}
+                    {b.source} · {b.mode}
                   </div>
-                  <div className="text-[var(--ink)]">{b.label}</div>
-                  <div className="break-all text-[var(--muted)]">{b.ref}</div>
+                                    <div className="break-all text-[var(--muted)]">{b.target}</div>
                 </li>
               ))}
             </ul>
@@ -82,10 +77,10 @@ export default async function ProjectPage({
               Stage ownership
             </h3>
             <ul className="space-y-3 text-sm text-[var(--muted)]">
-              {manifest.stageOwnership.map((row) => (
-                <li key={row.stageId} className="border-t border-[var(--line)] pt-3">
+              {manifest.ownership.map((row) => (
+                <li key={row.stage} className="border-t border-[var(--line)] pt-3">
                   <div className="text-[var(--neon)]">
-                    {row.stageId} → {row.ownerKind}
+                    {row.stage} → {row.owner}
                   </div>
                   <p className="mt-1">{ownershipBlurb(row)}</p>
                 </li>

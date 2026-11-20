@@ -4,11 +4,11 @@ import { listProjects } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  let projects: Awaited<ReturnType<typeof listProjects>> = [];
+export default function HomePage() {
+  let projects: ReturnType<typeof listProjects> = [];
   let loadError: string | null = null;
   try {
-    projects = await listProjects();
+    projects = listProjects();
   } catch (err) {
     loadError = err instanceof Error ? err.message : "Failed to load projects";
   }
@@ -57,8 +57,8 @@ export default async function HomePage() {
 
         {!loadError && projects.length === 0 ? (
           <p className="text-[var(--muted)]">
-            No projects yet. Create one below — seed data loads on first API
-            touch if the store is empty.
+            No projects yet. Create one below — seed data loads on first store
+            touch.
           </p>
         ) : null}
 

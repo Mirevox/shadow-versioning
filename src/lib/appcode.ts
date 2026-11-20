@@ -1,11 +1,12 @@
-const APPCODE_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+/** Product form: appcode-{slug}-{n} e.g. appcode-demo-0 */
+const APPCODE_PATTERN = /^appcode-[a-z0-9]+(?:-[a-z0-9]+)*-\d+$/;
 
-export const APPCODE_MIN = 3;
+export const APPCODE_MIN = 10;
 export const APPCODE_MAX = 64;
 
 export type AppcodeCheck = { ok: true; appcode: string } | { ok: false; error: string };
 
-/** Appcodes are lowercase, hyphen-separated slugs such as `appcode-demo-0`. */
+/** Appcodes bind a project across wiki, docs, git and tests — e.g. `appcode-demo-0`. */
 export function validateAppcode(input: unknown): AppcodeCheck {
   if (typeof input !== "string") return { ok: false, error: "appcode must be a string" };
   const value = input.trim();
@@ -15,7 +16,7 @@ export function validateAppcode(input: unknown): AppcodeCheck {
   if (!APPCODE_PATTERN.test(value)) {
     return {
       ok: false,
-      error: "appcode must start with a letter and use only lowercase letters, digits and single hyphens",
+      error: "appcode must match appcode-{slug}-{n} (lowercase), e.g. appcode-demo-0",
     };
   }
   return { ok: true, appcode: value };

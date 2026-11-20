@@ -37,6 +37,11 @@ export function stageOwnershipComplete(ownership: readonly StageOwnership[]): bo
   return STAGES.every((s) => ownership.filter((o) => o.stage === s).length === 1);
 }
 
+/** UI copy: who to trust for a stage. */
+export function ownershipBlurb(row: StageOwnership): string {
+  return `During ${row.stage}, trust ${row.owner}. Shadow versioning only records a snapshot — it does not overwrite that system.`;
+}
+
 export interface StageSnapshotInput {
   appcode: string;
   stage: Stage;

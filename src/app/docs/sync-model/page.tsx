@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DEFAULT_STAGE_OWNERSHIP, ownershipBlurb } from "@/lib/sync-model";
+import { DEFAULT_OWNERSHIP, ownershipBlurb } from "@/lib/sync-model";
 
 export default function SyncModelPage() {
   return (
@@ -27,13 +27,13 @@ export default function SyncModelPage() {
           Default ownership
         </h2>
         <ul className="space-y-4">
-          {DEFAULT_STAGE_OWNERSHIP.map((row) => (
+          {DEFAULT_OWNERSHIP.map((row) => (
             <li
-              key={row.stageId}
+              key={row.stage}
               className="border-t border-[var(--line)] pt-4 text-[var(--muted)]"
             >
               <div className="text-[var(--neon)]">
-                {row.stageId} → <strong className="text-[var(--ink)]">{row.ownerKind}</strong>
+                {row.stage} → <strong className="text-[var(--ink)]">{row.owner}</strong>
               </div>
               <p className="mt-1">{row.rationale}</p>
               <p className="mt-1 text-sm opacity-80">{ownershipBlurb(row)}</p>
