@@ -4,14 +4,14 @@ export type SourceKind = (typeof SOURCE_KINDS)[number];
 export const STAGES = ["pre-requirements", "requirements", "build", "test", "release"] as const;
 export type Stage = (typeof STAGES)[number];
 
-export type Provenance = "stub" | "manual" | "stage-gate";
+export type Provenance = "stub" | "local" | "manual" | "stage-gate";
 
 export interface ConnectorBinding {
   source: SourceKind;
   /** Human-readable pointer to the upstream system, e.g. a Confluence space key or a repo URL. */
   target: string;
   /** Stub connectors never talk to the real system. */
-  mode: "stub" | "live";
+  mode: "stub" | "local" | "live";
   enabled: boolean;
 }
 

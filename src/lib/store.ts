@@ -97,7 +97,7 @@ function parseBindings(value: unknown): ConnectorBinding[] {
     return {
       source: b.source!,
       target: str(b.target, `${b.source}://unconfigured`),
-      mode: "stub" as const,
+      mode: b.mode === "local" ? ("local" as const) : ("stub" as const),
       enabled: b.enabled !== false,
     };
   });
