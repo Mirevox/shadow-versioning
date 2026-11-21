@@ -29,7 +29,7 @@ export function Timeline({
   if (!events.length) {
     return (
       <div className="rounded-xl border border-dashed border-[var(--line)] px-5 py-10 text-center text-[var(--muted)]">
-        {emptyHint ?? "No snapshots yet. Run a stub sync to pull sample events."}
+        {emptyHint ?? "No snapshots yet. Add sample ledger events with Run stub sync."}
       </div>
     );
   }
@@ -75,9 +75,13 @@ export function Timeline({
             {event.stage ? (
               <span className="text-[var(--neon)]">stage: {event.stage}</span>
             ) : null}
-            {event.provenance === "stub" || event.network === false ? (
+            {event.provenance === "stub" ? (
               <span className="rounded px-1.5 py-0.5 bg-[var(--neon-dim)] text-[var(--neon)]">
                 stub · no network
+              </span>
+            ) : event.network === false ? (
+              <span className="rounded px-1.5 py-0.5 bg-[var(--neon-dim)] text-[var(--muted)]">
+                local · no upstream call
               </span>
             ) : null}
           </div>

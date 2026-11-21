@@ -1,6 +1,6 @@
 # v1 acceptance scope (intentional cut)
 
-The locked FR/NFR file (`docs/requirements.md`) grew into an aspirational contract (filters, SyncRun, Docker, UI RTL suite, `/api/v1/*`, Hono/SQLite, etc.).
+The locked FR/NFR file (`docs/requirements.md`) grew into an aspirational contract (filters, SyncRun, full UI RTL suite, `/api/v1/*`, Hono/SQLite, etc.).
 
 **Runnable v1 for this overnight slice** follows the product synthesis + devil’s-advocate must-keep:
 
@@ -9,7 +9,8 @@ The locked FR/NFR file (`docs/requirements.md`) grew into an aspirational contra
 3. Four labeled stub connectors (Confluence / SharePoint / Git / testing) with `network: false`
 4. Stage-owned sync model documented + enforced on stage snapshots
 5. Conceptual stage-gate hook (`POST .../stage-events`) + citation fixture
+6. Production standup packaging: `Dockerfile`, `docker-compose.yml` (HEALTHCHECK), `.env.example`, `GET /api/health`
 
 Acceptance against the full FR-01…27 matrix will remain **partial/fail** until a later milestone. Treat this file as the sign-off bar for the current GitHub push.
 
-See also: `docs/devils-advocate.md`, internal `acceptance.md` / `test-report.md`.
+See also: `docs/problem-statement.md`, `docs/known-gaps.md`, `docs/devils-advocate.md`.

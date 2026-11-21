@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 
@@ -32,7 +33,7 @@ export default function RootLayout({
         <div className="min-h-screen">
           <header className="border-b border-[var(--line)]/80 backdrop-blur-sm">
             <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-              <a href="/" className="group flex items-baseline gap-3">
+              <Link href="/" className="group flex items-baseline gap-3">
                 <span
                   className="text-2xl tracking-tight text-[var(--ink)] sm:text-3xl"
                   style={{ fontFamily: "var(--font-display), serif" }}
@@ -40,11 +41,11 @@ export default function RootLayout({
                   Mirevox
                 </span>
                 <span className="text-sm text-[var(--neon)]">Shadow Versioning</span>
-              </a>
+              </Link>
               <nav className="flex items-center gap-4 text-sm text-[var(--muted)]">
-                <a href="/docs/sync-model" className="hover:text-[var(--neon)]">
+                <Link href="/docs/sync-model" className="hover:text-[var(--neon)]">
                   Sync model
-                </a>
+                </Link>
                 <a
                   href="https://github.com/Mirevox/shadow-versioning"
                   className="hover:text-[var(--neon)]"

@@ -6,9 +6,13 @@ cursor:
 
 # Mirevox `shadow-versioning` — Locked v1 Requirements (FR / NFR)
 
+> **Docs honesty (2026-11-20 validation wave):** This FR/NFR matrix is the **target contract**. The runnable overnight slice is smaller — see `docs/v1-scope.md` and `docs/known-gaps.md`. Do not treat every FR-01…27 / NFR-01…10 row as implemented in the current GitHub tree. Acceptance against the full matrix remains partial/fail until a later milestone.
+
 - **Product**: Mirevox `shadow-versioning` (`https://github.com/Mirevox/shadow-versioning`)
-- **Status**: Locked for v1 council build & acceptance verification
+- **Status**: Locked aspirational contract; sign-off bar is `docs/v1-scope.md`
 - **Date**: 2026-11-20
+- **License**: Apache-2.0 (`LICENSE` + README)
+
 - **Source Inputs**:
   - `/cursor/stores/self/docs/product-synthesis.md`
   - `/cursor/stores/self/docs/mirevox-build-plan.md`

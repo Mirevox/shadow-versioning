@@ -135,14 +135,14 @@ describe("store create and idempotent sync", () => {
     expect(fetched).toHaveLength(4);
     expect(new Set(fetched.map((event) => event.id)).size).toBe(4);
     expect(
-      fetched.every(
-        (event) => event.provenance === "stub" && event.upstreamWritten === false && event.network === false,
-      ),
+      fetched.every((event) => event.provenance === "stub" && event.network === false),
     ).toBe(true);
 
     const added = appendSnapshots(APP, fetched, now);
     expect(added.map((event) => event.id).sort()).toEqual(fetched.map((event) => event.id).sort());
     expect(added.every((event) => event.upstreamWritten === false && event.network === false)).toBe(true);
+    expect(added.map((event) => event.sequenceNumber).sort((a, b) => a - b)).toEqual([1, 2, 3, 4]);
+    expect(added.every((event) => event.sequenceNumber > 0)).toBe(true);
 
     const replay = await runStubSync(created.manifest, now);
     expect(appendSnapshots(APP, replay, now)).toEqual([]);

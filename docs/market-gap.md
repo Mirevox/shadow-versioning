@@ -22,6 +22,15 @@ That gap is real but modest. Azure DevOps and enterprise ALM suites already conn
 
 This is not a new version-control system. “Shadow” should mean an indexed projection of source history, not a second authoritative copy.
 
+### Current implementation status (validation wave)
+
+The **intended product** is worth a two-connector market test. The **shipped overnight v1** is a stub-backed local ledger + Docker standup: it validates UX/schema and the stage-gate seam, but does **not** yet deliver federated live history. Call it a concept demonstrator, not a working cross-system solution.
+
+**Top 4 OSS alternatives buyers may confuse with us:** Tuleap CE, OpenProject CE, Backstage, Nextcloud Files/Versions.  
+**Top 4 paid:** Azure DevOps, Atlassian Jira+Confluence+Bitbucket, Siemens Polarion, Unito.
+
+**Stop condition:** if a two-live-connector slice does not let a reviewer reconstruct a real change sequence faster than opening native tools, do not keep expanding the stub surface.
+
 ## Competitive map
 
 | Segment / examples | What it already does well | Gap relative to the Mirevox wedge |

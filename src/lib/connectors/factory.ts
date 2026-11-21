@@ -1,6 +1,5 @@
-import type { Stage } from "../types";
+import type { NewSnapshot, Stage } from "../types";
 import { STUB_LABEL, type Connector, type ConnectorContext } from "./types";
-import type { SnapshotEvent } from "../types";
 
 interface StubSpec {
   source: Connector["source"];
@@ -16,7 +15,7 @@ export function makeStubConnector(spec: StubSpec): Connector {
   return {
     source: spec.source,
     stub: true,
-    async fetchSnapshots(ctx: ConnectorContext): Promise<SnapshotEvent[]> {
+    async fetchSnapshots(ctx: ConnectorContext): Promise<NewSnapshot[]> {
       const occurredAt = new Date(ctx.now.getTime() - spec.minutesAgo * 60_000).toISOString();
       return [
         {
@@ -30,10 +29,7 @@ export function makeStubConnector(spec: StubSpec): Connector {
           detail: `${spec.detail} (${STUB_LABEL} Generated locally for ${ctx.binding.target}; no request was sent to ${spec.source}.)`,
           ref: spec.ref,
           provenance: "stub",
-          upstreamWritten: false,
           network: false,
-          // sequenceNumber assigned by the store on append
-          sequenceNumber: 0,
         },
       ];
     },
