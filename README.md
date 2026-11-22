@@ -72,3 +72,7 @@ Data defaults to `./data/projects.json` (gitignored; reseeded when missing). Ove
 ## License
 
 Copyright 2026 Mirevox contributors. Licensed under the Apache License, Version 2.0 — see [`LICENSE`](./LICENSE).
+
+## Verification
+
+Test suite, smoke test, and container verification results are recorded in [`VERIFICATION.md`](./VERIFICATION.md).
