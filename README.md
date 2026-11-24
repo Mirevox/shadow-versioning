@@ -73,6 +73,12 @@ Data defaults to `./data/projects.json` (gitignored; reseeded when missing). Ove
 
 Copyright 2026 Mirevox contributors. Licensed under the Apache License, Version 2.0 — see [`LICENSE`](./LICENSE).
 
+## What's New in v0.2.0
+
+- **Jira Connector (`src/lib/connectors/jira.ts`):** Added `"jira"` source supporting `stub` and offline `local` `.json`/`.md` tickets alongside Confluence, SharePoint, Git, and Testing.
+- **Content-Preserving Snapshots & Composite Versioning (`appcode@vN`):** Connectors capture full/excerpted artifact text (`<= 32_768` chars) and structured metadata, folded chronologically into immutable `appcode@vN` composite bundles (`GET /api/projects/[appcode]/versions`).
+- **Loop-Guarded Context Bridge (`src/lib/context-bridge.ts`):** Automatically pushes newly synced snapshots to `context-engine` (`/appcodes/:appcode/ingest`) with atomic per-write persistence, `eventId` deduplication, and loop-prevention headers (`originSource`, `skipStageGateCallback`, `hopCount`).
+
 ## Verification
 
 Test suite, smoke test, and container verification results are recorded in [`VERIFICATION.md`](./VERIFICATION.md).
