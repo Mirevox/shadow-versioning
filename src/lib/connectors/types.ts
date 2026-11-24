@@ -1,3 +1,5 @@
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { ConnectorBinding, NewSnapshot, SourceKind } from "../types";
 
 export interface ConnectorContext {
@@ -15,3 +17,19 @@ export interface Connector {
 }
 
 export const STUB_LABEL = "[stub/mock]";
+
+/** Resolves a `file://` or custom `<scheme>://` target path into an absolute filesystem path. */
+export function resolveLocalTarget(
+  target: string,
+  schemeRegex: RegExp,
+  fallbackCwd = false,
+): string {
+  if (target.startsWith("file://")) {
+    return fileURLToPath(target);
+  }
+  const stripped = target.replace(schemeRegex, "");
+  if (fallbackCwd && (stripped === "." || !stripped)) {
+    return process.cwd();
+  }
+  return resolve(stripped);
+}

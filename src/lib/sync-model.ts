@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { getConnector } from "./connectors";
+import { validateSnapshotContent, validateSnapshotMetadata } from "./content";
 import type {
   AppcodeManifest,
   NewSnapshot,
@@ -49,6 +50,10 @@ export interface StageSnapshotInput {
   source: SourceKind;
   title: string;
   detail?: string;
+  content?: string;
+  metadata?: Record<string, string>;
+  /** Optional caller-supplied idempotency token so retries produce the exact same snapshot id. */
+  eventId?: string;
   ref?: string | null;
   occurredAt?: string;
   provenance?: Provenance;
@@ -77,10 +82,24 @@ export function recordStageSnapshot(
   const expected = ownerOf(input.stage, ownership);
   if (input.source !== expected) throw new OwnershipError(input.stage, expected, input.source);
   const occurredAt = input.occurredAt ?? now.toISOString();
-  const digest = createHash("sha1")
-    .update([input.appcode, input.stage, input.source, input.title, input.ref ?? "", occurredAt].join("|"))
-    .digest("hex")
-    .slice(0, 12);
+  const normalizedEventId = input.eventId?.trim();
+  const idSeed = normalizedEventId
+    ? [input.appcode, input.stage, input.source, "event", normalizedEventId].join("|")
+    : [input.appcode, input.stage, input.source, input.title, input.ref ?? "", occurredAt].join("|");
+  const digest = createHash("sha1").update(idSeed).digest("hex").slice(0, 12);
+
+  const contentRes = validateSnapshotContent(input.content);
+  const content = contentRes.ok ? contentRes.value : undefined;
+  const metaRes = validateSnapshotMetadata(input.metadata);
+  const baseMeta = metaRes.ok ? metaRes.value : undefined;
+  const mergedMeta =
+    normalizedEventId || baseMeta
+      ? {
+          ...(baseMeta ?? {}),
+          ...(normalizedEventId ? { eventId: normalizedEventId } : {}),
+        }
+      : undefined;
+
   return {
     id: `${input.appcode}:${input.stage}:${digest}`,
     appcode: input.appcode,
@@ -90,13 +109,15 @@ export function recordStageSnapshot(
     recordedAt: now.toISOString(),
     title: input.title,
     detail: input.detail ?? "",
+    ...(content !== undefined ? { content } : {}),
+    ...(mergedMeta ? { metadata: mergedMeta } : {}),
     ref: input.ref ?? null,
     provenance: input.provenance ?? "manual",
     network: false,
   };
 }
 
-/** Runs every enabled stub connector whose source owns a stage for this manifest. */
+/** Runs every enabled stub/local connector configured for this manifest. */
 export async function runStubSync(manifest: AppcodeManifest, now: Date = new Date()): Promise<NewSnapshot[]> {
   const out: NewSnapshot[] = [];
   for (const binding of manifest.bindings) {

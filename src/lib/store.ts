@@ -1,6 +1,9 @@
-import { mkdirSync, readFileSync, renameSync, writeFileSync, existsSync } from "node:fs";
+import { randomUUID } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { validateAppcode } from "./appcode";
+import { validateSnapshotContent, validateSnapshotMetadata } from "./content";
+import { buildSeedStore } from "./seed";
 import { DEFAULT_OWNERSHIP, stageOwnershipComplete } from "./sync-model";
 import { sortTimeline } from "./timeline";
 import type {
@@ -9,10 +12,12 @@ import type {
   NewSnapshot,
   ProjectRecord,
   SnapshotEvent,
+  SourceKind,
   StoreShape,
 } from "./types";
 import { SOURCE_KINDS } from "./types";
-import { buildSeedStore } from "./seed";
+
+const DEFAULT_BINDING_SOURCES: readonly SourceKind[] = ["confluence", "sharepoint", "git", "testing"];
 
 export class StoreError extends Error {
   constructor(
@@ -44,9 +49,19 @@ function load(): StoreShape {
 
 function save(state: StoreShape): void {
   mkdirSync(dataDir(), { recursive: true });
-  const tmp = `${storePath()}.tmp`;
+  const target = storePath();
+  const tmp = `${target}.${process.pid}.${randomUUID()}.tmp`;
   writeFileSync(tmp, JSON.stringify(state, null, 2) + "\n");
-  renameSync(tmp, storePath());
+  try {
+    renameSync(tmp, target);
+  } catch (error) {
+    try {
+      unlinkSync(tmp);
+    } catch {
+      /* ignore cleanup failure */
+    }
+    throw error;
+  }
 }
 
 function withSortedTimeline(record: ProjectRecord): ProjectRecord {
@@ -78,7 +93,7 @@ function str(value: unknown, fallback: string): string {
 
 function parseBindings(value: unknown): ConnectorBinding[] {
   if (value === undefined) {
-    return SOURCE_KINDS.filter((s) => s !== "stage-gate").map((source) => ({
+    return DEFAULT_BINDING_SOURCES.map((source) => ({
       source,
       target: `${source}://unconfigured`,
       mode: "stub" as const,
@@ -92,7 +107,7 @@ function parseBindings(value: unknown): ConnectorBinding[] {
       throw new StoreError(`binding source must be one of ${SOURCE_KINDS.join(", ")}`, "invalid");
     }
     if (b.mode === "live") {
-      throw new StoreError("v1 rejects mode:\"live\"; use stub connectors only", "invalid");
+      throw new StoreError('v1 rejects mode:"live"; use stub connectors only', "invalid");
     }
     return {
       source: b.source!,
@@ -158,6 +173,19 @@ export function appendSnapshots(
   incoming: NewSnapshot[],
   now: Date = new Date(),
 ): SnapshotEvent[] {
+  const normalized = incoming.map((n, index) => {
+    const contentCheck = validateSnapshotContent(n.content);
+    if (!contentCheck.ok) throw new StoreError(contentCheck.error, "invalid");
+    const metadataCheck = validateSnapshotMetadata(n.metadata);
+    if (!metadataCheck.ok) throw new StoreError(metadataCheck.error, "invalid");
+    return {
+      raw: n,
+      index,
+      content: contentCheck.value,
+      metadata: metadataCheck.value,
+    };
+  });
+
   const state = load();
   const record = state.projects[appcode];
   if (!record) throw new StoreError(`Project "${appcode}" not found`, "not-found");
@@ -165,26 +193,31 @@ export function appendSnapshots(
   const added: SnapshotEvent[] = [];
   let nextSeq =
     record.snapshots.reduce((max, s) => Math.max(max, s.sequenceNumber ?? 0), 0) + 1;
-  incoming.forEach((n, i) => {
-    const id = n.id ?? `${appcode}:${now.getTime()}:${record.snapshots.length + i}`;
-    if (known.has(id)) return;
+
+  for (const { raw, index, content, metadata } of normalized) {
+    const id = raw.id ?? `${appcode}:${now.getTime()}:${record.snapshots.length + index}`;
+    if (known.has(id)) continue;
     known.add(id);
     const event: SnapshotEvent = {
-      ...n,
+      ...raw,
       id,
       appcode,
-      recordedAt: n.recordedAt ?? now.toISOString(),
+      recordedAt: raw.recordedAt ?? now.toISOString(),
       // Treat 0/negative as unset — stubs historically passed sequenceNumber: 0.
       sequenceNumber:
-        typeof n.sequenceNumber === "number" && n.sequenceNumber > 0
-          ? n.sequenceNumber
+        typeof raw.sequenceNumber === "number" && raw.sequenceNumber > 0
+          ? raw.sequenceNumber
           : nextSeq++,
       upstreamWritten: false,
-      network: n.network ?? false,
+      network: raw.network ?? false,
     };
+    if (content !== undefined) event.content = content;
+    else delete event.content;
+    if (metadata !== undefined) event.metadata = metadata;
+    else delete event.metadata;
     record.snapshots.push(event);
     added.push(event);
-  });
+  }
   if (added.length) save(state);
   return sortTimeline(added);
 }

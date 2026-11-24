@@ -3,6 +3,7 @@ import type { SnapshotEvent } from "@/lib/types";
 const SOURCE_COLOR: Record<string, string> = {
   confluence: "#a78bfa",
   sharepoint: "#60a5fa",
+  jira: "#f472b6",
   git: "#5dffa8",
   testing: "#fbbf24",
   "stage-gate": "#3df2ff",

@@ -1,10 +1,19 @@
-export const SOURCE_KINDS = ["confluence", "sharepoint", "git", "testing", "stage-gate"] as const;
+export const SOURCE_KINDS = [
+  "confluence",
+  "sharepoint",
+  "git",
+  "testing",
+  "jira",
+  "stage-gate",
+] as const;
 export type SourceKind = (typeof SOURCE_KINDS)[number];
 
 export const STAGES = ["pre-requirements", "requirements", "build", "test", "release"] as const;
 export type Stage = (typeof STAGES)[number];
 
 export type Provenance = "stub" | "local" | "manual" | "stage-gate";
+
+export const MAX_CONTENT_CHARS = 32_768;
 
 export interface ConnectorBinding {
   source: SourceKind;
@@ -35,6 +44,10 @@ export interface SnapshotEvent {
   sequenceNumber: number;
   title: string;
   detail: string;
+  /** Substantive normalized text captured from the upstream artifact (capped at MAX_CONTENT_CHARS). */
+  content?: string;
+  /** Structured plain-string metadata attached to the snapshot (e.g. stageId, issueKey, loop-guard fields). */
+  metadata?: Record<string, string>;
   /** Upstream reference such as a page id, commit sha, or run id. */
   ref: string | null;
   provenance: Provenance;
@@ -72,3 +85,29 @@ export type NewSnapshot = Omit<
   "id" | "recordedAt" | "upstreamWritten" | "sequenceNumber"
 > &
   Partial<Pick<SnapshotEvent, "id" | "recordedAt" | "sequenceNumber">>;
+
+export interface SourceVersionPin {
+  source: SourceKind;
+  snapshotId: string;
+  sequenceNumber: number;
+  recordedAt: string;
+  occurredAt: string;
+  stage: Stage | null;
+  ref: string | null;
+  title: string;
+  provenance: Provenance;
+}
+
+export interface AppcodeVersionBundle {
+  version: string;
+  versionNumber: number;
+  appcode: string;
+  bundleHash: string;
+  createdAt: string;
+  triggerSnapshotId: string;
+  triggerSource: SourceKind;
+  triggerStage: Stage | null;
+  triggerTitle: string;
+  snapshotCount: number;
+  sources: Partial<Record<SourceKind, SourceVersionPin>>;
+}

@@ -1,16 +1,22 @@
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { basename, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { basename, join } from "node:path";
+import { capContent } from "../content";
+import { MAX_CONTENT_CHARS, type NewSnapshot, type Stage } from "../types";
 import { makeStubConnector } from "./factory";
-import type { Connector, ConnectorContext } from "./types";
-import type { NewSnapshot, Stage } from "../types";
+import { resolveLocalTarget, type Connector, type ConnectorContext } from "./types";
 
 const stubConfluenceConnector = makeStubConnector({
   source: "confluence",
   stage: "pre-requirements",
   title: "Discovery page revised",
   detail: "Problem statement and stakeholder notes were edited in the discovery space.",
+  content:
+    "Confluence discovery space update: documented target user personas, operational pain points from manual cross-system re-entry, baseline cycle-time metrics, high-level capabilities for unified intake tracking, and explicit out-of-scope boundaries for this delivery slice.",
+  metadata: {
+    space: "DISCOVERY",
+    pageId: "confluence-page-stub-1042",
+  },
   ref: "confluence-page-stub-1042",
   minutesAgo: 240,
 });
@@ -20,10 +26,7 @@ export function readLocalMarkdownSnapshots(
   source: "confluence" | "sharepoint",
   stage: Stage,
 ): NewSnapshot[] {
-  const rawTarget = ctx.binding.target;
-  const fsPath = rawTarget.startsWith("file://")
-    ? fileURLToPath(rawTarget)
-    : resolve(rawTarget.replace(/^(confluence|sharepoint|local):\/\//, ""));
+  const fsPath = resolveLocalTarget(ctx.binding.target, /^(confluence|sharepoint|local):\/\//);
   if (!existsSync(fsPath)) {
     throw new Error(`Local ${source} path not found: ${fsPath}`);
   }
@@ -37,10 +40,11 @@ export function readLocalMarkdownSnapshots(
     : [fsPath];
 
   return files.map((filePath) => {
-    const content = readFileSync(filePath, "utf8");
+    const rawContent = readFileSync(filePath, "utf8");
     const fstat = statSync(filePath);
-    const heading = /^#\s+(.+)$/m.exec(content)?.[1]?.trim();
+    const heading = /^#\s+(.+)$/m.exec(rawContent)?.[1]?.trim();
     const title = heading || basename(filePath);
+    const content = capContent(rawContent);
     const digest = createHash("sha1")
       .update(`${ctx.appcode}|${source}|${filePath}|${fstat.mtimeMs}`)
       .digest("hex")
@@ -53,7 +57,18 @@ export function readLocalMarkdownSnapshots(
       occurredAt: fstat.mtime.toISOString(),
       recordedAt: ctx.now.toISOString(),
       title,
-      detail: `Local ${source} document ${basename(filePath)} (${content.length} chars)`,
+      detail: `Local ${source} document ${basename(filePath)} (${rawContent.length} chars)`,
+      ...(content ? { content } : {}),
+      metadata: {
+        mode: "local",
+        source,
+        fileName: basename(filePath),
+        filePath,
+        bytes: String(fstat.size),
+        chars: String(rawContent.length),
+        truncated: String(rawContent.length > MAX_CONTENT_CHARS),
+        stageId: stage,
+      },
       ref: basename(filePath),
       provenance: "local",
       network: false,

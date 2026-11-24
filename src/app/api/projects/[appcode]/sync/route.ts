@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { pushSnapshotsToContextEngine } from "@/lib/context-bridge";
 import { checkedAppcode, errorResponse, type AppcodeContext } from "@/lib/http";
 import { appendSnapshots, getProject, StoreError } from "@/lib/store";
 import { runStubSync } from "@/lib/sync-model";
 
 export const dynamic = "force-dynamic";
 
-/** Runs the stub connectors for every stage-owning source and records what they report. */
+/** Runs enabled stub/local connectors and records newly observed snapshots. */
 export async function POST(_req: Request, { params }: AppcodeContext) {
   try {
     const appcode = checkedAppcode((await params).appcode);
@@ -13,6 +14,9 @@ export async function POST(_req: Request, { params }: AppcodeContext) {
     if (!record) throw new StoreError(`Project "${appcode}" not found`, "not-found");
     const events = await runStubSync(record.manifest);
     const added = appendSnapshots(appcode, events);
+    const contextBridge = added.length
+      ? await pushSnapshotsToContextEngine(record, added)
+      : undefined;
     return NextResponse.json({
       appcode,
       mode: "stub",
@@ -20,6 +24,7 @@ export async function POST(_req: Request, { params }: AppcodeContext) {
       fetched: events.length,
       added: added.length,
       snapshots: added,
+      ...(contextBridge ? { contextBridge } : {}),
     });
   } catch (e) {
     return errorResponse(e);

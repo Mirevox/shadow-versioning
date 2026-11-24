@@ -4,6 +4,8 @@ import { dataDir } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
+const SERVICE_VERSION = "0.2.0";
+
 /**
  * Liveness/readiness for Docker HEALTHCHECK and compose.
  * Standalone — zero dependency on stage-gate or external SaaS.
@@ -17,7 +19,7 @@ export async function GET() {
       status: "ok",
       ok: true,
       service: "mirevox-shadow-versioning",
-      version: process.env.npm_package_version ?? "0.1.0",
+      version: SERVICE_VERSION,
       dataDir: dir,
       dataReady,
     },
